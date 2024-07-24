@@ -56,6 +56,11 @@ function updateCurrentWeatherDisplay(data) {
   weatherCurrent.appendChild(weatherCurrentDescription);
 }
 
+// default weather
+getWeatherReport("london").then((data) => {
+  updateCurrentWeatherDisplay(data);
+});
+
 searchBtn.addEventListener("click", (e) => {
   e.preventDefault();
   getWeatherReport(searchLocation.value).then((data) => {
