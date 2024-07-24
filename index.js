@@ -2,6 +2,8 @@ const WEATHER_API_KEY = "LVP2BAZE38STTXRBX55CEXHLE";
 const weatherToday = document.querySelector(".weather-today");
 const weatherHourly = document.querySelector(".weather-hourly");
 const weatherDaily = document.querySelector(".weather-daily");
+const searchLocation = document.querySelector("#search-location");
+const searchBtn = document.querySelector(".search-btn");
 
 async function getWeatherReport(location) {
   const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=metric&key=${WEATHER_API_KEY}`;
@@ -46,6 +48,7 @@ function updateCurrentWeatherDisplay(data) {
   weatherCurrentIcon.classList.add("weather-current-icon");
   weatherCurrentIcon.src = `weather-icons/${data.currentConditions.icon}.svg`;
 
+  weatherCurrent.replaceChildren();
   weatherCurrent.appendChild(weatherCurrentInfo);
   weatherCurrent.appendChild(weatherCurrentTemp);
   weatherCurrent.appendChild(weatherCurrentConditions);
@@ -53,6 +56,19 @@ function updateCurrentWeatherDisplay(data) {
   weatherCurrent.appendChild(weatherCurrentDescription);
 }
 
-getWeatherReport("london").then((data) => {
-  updateCurrentWeatherDisplay(data);
+searchBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  getWeatherReport(searchLocation.value).then((data) => {
+    updateCurrentWeatherDisplay(data);
+  });
+  searchLocation.value = "";
+});
+
+searchLocation.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    getWeatherReport(searchLocation.value).then((data) => {
+      updateCurrentWeatherDisplay(data);
+    });
+    searchLocation.value = "";
+  }
 });
