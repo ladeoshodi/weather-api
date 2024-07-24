@@ -15,4 +15,4 @@ async function getWeatherReport(location) {
   }
 }
 
-getWeatherReport("london");
+// getWeatherReport("london");
